@@ -170,7 +170,7 @@ function addRole() {
         },
         {
           message: 'select the department for this role',
-          choices: 'departments',
+          choices: departments,
           type: 'list',
         },
       ])

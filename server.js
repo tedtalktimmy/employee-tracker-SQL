@@ -47,14 +47,14 @@ let response = inquirer.prompt(
           addRole();
 
         case 'add employee':
-          return addEmployee();
+          addEmployee();
 
         case 'update employee role':
-          return updateEmployeeRole();
+          updateEmployeeRole();
 
         case 'exit':
           console.log('Until next time!');
-          return process.exit();
+          process.exit(0);
       }
     })
     )

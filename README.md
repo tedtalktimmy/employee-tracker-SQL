@@ -4,8 +4,6 @@
 * [Description](#description)
 * [User Story](#userstory)
 * [How to use](#use)
-* [Test Visuals](#testvisuals)
-* [HTML Visuals](#htmlvisuals)
 * [Video Demo](#videodemo)
 * [Links](#links)
 

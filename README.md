@@ -43,14 +43,8 @@ THEN I am prompted to select an employee to update and their new role and this i
 - In your CLI, enter "node server.js" to initialize this application.
 
 
-
-## Test Visuals
-Used Jest for testing
-![Jest Test](./images/testResults.png)
-
-## HTML Visuals
-
-
+## Video Demo
+![Demo](https://user-images.githubusercontent.com/89530272/197568072-b44d4088-8680-4be8-9ce0-8738b90a491a.gif)
 
 
 ## Links

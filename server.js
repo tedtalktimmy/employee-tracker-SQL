@@ -26,7 +26,8 @@ inquirer.prompt([
         'add a department',
         'add a role',
         'add an employee',
-        'update an employee role'
+        'update an employee role',
+        'exit'
       ],
     }]).then((response) => {
       switch (response.choice) {
@@ -55,7 +56,7 @@ inquirer.prompt([
           addEmployee();
           break;
 
-        case 'update employee role':
+        case 'update an employee role':
           updateEmployeeRole();
           break;
 
@@ -118,24 +119,24 @@ const addRole = () => {
       const departments = deptResults.map(departments => {
         return { name: departments.name, value: departments.id }
       })
-      let response = inquirer.prompt([
+      inquirer.prompt([
         {
           message: 'enter role',
           type: 'input',
-          name: 'roleName'
+          name: 'title'
         },
         {
           message: 'enter salary for role',
           type: 'input',
-          name: 'roleSalary'
+          name: 'salary'
         },
         {
           message: 'select the department for this role',
           choices: departments,
-          type: 'list'
+          type: 'choice'
         },
       ]).then((response) => {
-        db.promise().query(`INSERT INTO roles (title, salary, department_id)VALUES(?,?,?)`, [response.roleName, response.roleSalary, response.departments]).then(([results, fields]) => {
+        db.promise().query(`INSERT INTO roles (title, salary, department_id)VALUES(?,?,?)`, [response.title, response.salary, response.departments]).then(([results, fields]) => {
           console.table(results);
           init();
         });
@@ -150,7 +151,7 @@ const addEmployee = () => {
     const managers = results.map(employees => { return { name: employees.first_name + ' ' + employees.last_name, value: employees.id } })
     db.promise().query(`SELECT title, id FROM roles`).then(([roleResults, fields]) => {
       const roles = roleResults.map(roles => { return { name: roles.title, value: roles.id } })
-       let response = inquirer.prompt([
+       inquirer.prompt([
         {
           message: 'please enter the first name of the employee',
           type: 'input',
@@ -174,8 +175,8 @@ const addEmployee = () => {
           name: 'manager'
         }
       ]).then((response) => {
-        db.promise().query(`INSERT INTO employees (first_name, last_name, role_id, manager_id)`, VALUES(`?,?,?`),
-          [response.employee.first_name, response.employee.last_name, response.employee.role, response.employee.manager]).then(([results, fields]) => {
+        db.promise().query(`INSERT INTO employees (first_name, last_name, role_id, manager_id)VALUES(?,?,?,?)`,
+          [response.first_name, response.last_name, response.role, response.manager]).then(([results, fields]) => {
             console.table(results);
             init();
           });
@@ -191,25 +192,25 @@ const updateEmployeeRole = () => {
         name: employees.first_name + ' ' + employees.last_name, value: employees.id
       }
     })
-    db.promise().query(`SELECT title, id FROM roles`).then(([rolesResults, fields]) => {
-      const roles = rolesResults.map(role => {
+    db.promise().query(`SELECT title, id FROM roles`).then(([roleResults, fields]) => {
+      const roles = roleResults.map(roles => {
         return { name: roles.title, value: roles.id }
-      });
+      })
       inquirer.prompt([
         {
           message: 'which employee?',
           choices: employees,
           type: 'list',
-          name: 'employeesName,'
+          name: 'employeeName,'
         },
         {
           message: 'please select new role for employee',
           choices: roles,
           type: 'list',
-          name: 'roles'
+          name: 'employeesRoles'
         },
       ]).then((response) => {
-        db.promise().query(`UPDATE employees SET role_id = ? WHERE employees.id = ?`, [response.roles, response.employeesName]).then(([results, fields]) => {
+        db.promise().query(`UPDATE employees SET role_id = ? WHERE employees.id = ?`, [response.empoyeeRoles, response.employeeName]).then(([results, fields]) => {
           console.table(results);
           init();
         });
